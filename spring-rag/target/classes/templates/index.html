@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure AI RAG Assistant</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        body{
+            height:100vh;
+            background:linear-gradient(135deg,#6b8cff,#7c3aed);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:20px;
+        }
+
+        .container{
+            width:95%;
+            max-width:1300px;
+            height:95vh;
+            background:white;
+            border-radius:25px;
+            overflow:hidden;
+            display:flex;
+            flex-direction:column;
+            box-shadow:0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .header{
+            background:#4f46e5;
+            color:white;
+            text-align:center;
+            padding:25px;
+        }
+
+        .header h1{
+            font-size:42px;
+            margin-bottom:8px;
+        }
+
+        .header p{
+            font-size:18px;
+        }
+
+        .chat-content{
+            flex:1;
+            background:#f5f6f8;
+            overflow-y:auto;
+            padding:30px;
+        }
+
+        .welcome-screen{
+            text-align:center;
+            color:#555;
+            margin-top:150px;
+        }
+
+        .welcome-screen h2{
+            font-size:50px;
+            margin-bottom:10px;
+        }
+
+        .welcome-screen p{
+            font-size:22px;
+        }
+
+        .message{
+            margin-bottom:25px;
+            display:flex;
+        }
+
+        .user-message{
+            justify-content:flex-end;
+        }
+
+        .assistant-message{
+            justify-content:flex-start;
+        }
+
+        .message-box{
+            max-width:75%;
+            padding:18px;
+            border-radius:18px;
+            line-height:1.7;
+            word-wrap:break-word;
+        }
+
+        .user-message .message-box{
+            background:#4f46e5;
+            color:white;
+        }
+
+        .assistant-message .message-box{
+            background:white;
+            border:1px solid #ddd;
+            color:#333;
+        }
+
+        .input-section{
+            padding:20px;
+            border-top:1px solid #ddd;
+            background:white;
+        }
+
+        form{
+            display:flex;
+            gap:15px;
+        }
+
+        input{
+            flex:1;
+            height:65px;
+            border:2px solid #ddd;
+            border-radius:15px;
+            padding:0 20px;
+            font-size:18px;
+            outline:none;
+        }
+
+        input:focus{
+            border-color:#4f46e5;
+        }
+
+        button{
+            width:130px;
+            border:none;
+            border-radius:15px;
+            background:#4f46e5;
+            color:white;
+            font-size:18px;
+            font-weight:bold;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#4338ca;
+        }
+
+        .loading{
+            display:none;
+            text-align:center;
+            margin-top:10px;
+            color:#4f46e5;
+            font-weight:bold;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Azure AI RAG Assistant</h1>
+        <p>Powered by Azure OpenAI & Azure AI Search</p>
+    </div>
+
+    <div class="chat-content" id="chatContent">
+
+        <!-- Welcome Screen -->
+        <div th:if="${question == null}" class="welcome-screen">
+            <h2>👋 Welcome</h2>
+            <p>Ask anything from your knowledge base.</p>
+        </div>
+
+        <!-- User Question -->
+        <div th:if="${question != null}" class="message user-message">
+            <div class="message-box">
+                <strong>You:</strong><br>
+                <span th:text="${question}"></span>
+            </div>
+        </div>
+
+        <!-- AI Response -->
+        <div th:if="${answer != null}" class="message assistant-message">
+            <div class="message-box">
+                <strong>Assistant:</strong><br>
+                <span th:text="${answer}"></span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="input-section">
+
+        <form action="/ask" method="post" onsubmit="showLoading()">
+
+            <input
+                    type="text"
+                    name="question"
+                    placeholder="Type your question here..."
+                    required>
+
+            <button type="submit">
+                Send
+            </button>
+
+        </form>
+
+        <div id="loading" class="loading">
+            Thinking...
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    function showLoading() {
+        document.getElementById("loading").style.display = "block";
+    }
+
+    window.onload = function () {
+        const chat = document.getElementById("chatContent");
+        chat.scrollTop = chat.scrollHeight;
+    };
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+server:
+  port: 8080
+
+azure:
+  openai:
+    endpoint: ${AZURE_OAI_ENDPOINT:https://openairagpoc002.openai.azure.com/}
+    key: ${AZURE_OAI_KEY:Agw4UWSYPRnkS83elrxnXAldEsDiJCdwRdgSz9dqexYGbkG5Oe7gJQQJ99CFAC1i4TkXJ3w3AAABACOGW2EA}
+    deployment: ${AZURE_OAI_DEPLOYMENT:gpt-4o}
+
+  search:
+    endpoint: ${AZURE_SEARCH_ENDPOINT:https://apulapa-ai-search.search.windows.net}
+    key: ${AZURE_SEARCH_KEY:3u0NN9Za5VaeE2Y7di1WfmRdSukVYchJak9EzIEy7vAzSeDDgbeE}
+    index: ${AZURE_SEARCH_INDEX:rag-1782198140179}
